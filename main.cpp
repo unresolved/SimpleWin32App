@@ -4,9 +4,9 @@
 #define MAX_LOADSTRING 100
 
 // 全局变量:
-HINSTANCE	hInst;							// 当前实例
-WCHAR		szTitle[MAX_LOADSTRING];		// 标题栏文本
-WCHAR		szWindowClass[MAX_LOADSTRING];	// 主窗口类名
+HINSTANCE    hInst;                          // 当前实例
+WCHAR        szTitle[MAX_LOADSTRING];        // 标题栏文本
+WCHAR        szWindowClass[MAX_LOADSTRING];  // 主窗口类名
 
 // 此代码模块中包含的函数的前向声明:
 ATOM                MyRegisterClass(HINSTANCE hInstance);
@@ -20,9 +20,9 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance
     UNREFERENCED_PARAMETER(lpCmdLine);
 
     // TODO: 在此处放置代码。
-	
-	// Init CrashReport
-	RunCrashHandler();
+    
+    // Init CrashReport
+    RunCrashHandler();
 
     // 初始化全局字符串
     LoadStringW(hInstance, IDS_APP_TITLE, szTitle, MAX_LOADSTRING);
@@ -70,7 +70,7 @@ ATOM MyRegisterClass(HINSTANCE hInstance)
     wcex.hInstance      = hInstance;
 
     //wcex.hIcon          = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_LAUNCHER));
-	wcex.hIcon          = NULL;
+    wcex.hIcon          = NULL;
 
     wcex.hCursor        = LoadCursor(nullptr, IDC_ARROW);
     wcex.hbrBackground  = (HBRUSH)(COLOR_WINDOW+1);
@@ -78,7 +78,7 @@ ATOM MyRegisterClass(HINSTANCE hInstance)
     wcex.lpszClassName  = szWindowClass;
 
     //wcex.hIconSm        = LoadIcon(wcex.hInstance, MAKEINTRESOURCE(IDI_SMALL));
-	wcex.hIconSm        = NULL;
+    wcex.hIconSm        = NULL;
 
     return RegisterClassExW(&wcex);
 }
@@ -147,36 +147,36 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
             PAINTSTRUCT ps;
             HDC hdc = BeginPaint(hWnd, &ps);
             // TODO: 在此处添加使用 hdc 的任何绘图代码...
-			
-			LPRECT lpRect = new RECT();
-			GetClientRect(hWnd, lpRect);
+            
+            LPRECT lpRect = new RECT();
+            GetClientRect(hWnd, lpRect);
 
-			lpRect->left = 5;
-			lpRect->top = 5;
-			lpRect->right = lpRect->right - 5;
-			lpRect->bottom = lpRect->bottom - 5;
+            lpRect->left = 5;
+            lpRect->top = 5;
+            lpRect->right = lpRect->right - 5;
+            lpRect->bottom = lpRect->bottom - 5;
 
-			//底图矩形
-			Rectangle(hdc, lpRect->left, lpRect->top, lpRect->right, lpRect->bottom);
-			
-			MoveToEx(hdc, lpRect->left, lpRect->top, NULL);
-			LineTo(hdc, lpRect->right, lpRect->bottom);
-			MoveToEx(hdc, lpRect->right, lpRect->top, NULL);
-			LineTo(hdc, lpRect->left, lpRect->bottom);
+            //底图矩形
+            Rectangle(hdc, lpRect->left, lpRect->top, lpRect->right, lpRect->bottom);
+            
+            MoveToEx(hdc, lpRect->left, lpRect->top, NULL);
+            LineTo(hdc, lpRect->right, lpRect->bottom);
+            MoveToEx(hdc, lpRect->right, lpRect->top, NULL);
+            LineTo(hdc, lpRect->left, lpRect->bottom);
 
-			LPWSTR lpchText = (LPWSTR)L"尝试触发重绘事件，位图会重新改变位置。";
-			DrawText(hdc, (LPCWSTR)lpchText, -1, lpRect, DT_CENTER + DT_SINGLELINE + DT_VCENTER);
-			
-			//加载位图
-			HBITMAP hBitmap = LoadBitmap(hInst, MAKEINTRESOURCE(IDB_BITMAP1));
-			GetClientRect(hWnd, lpRect);
-			SetStretchBltMode(hdc, HALFTONE);
-			HDC hmemdc = CreateCompatibleDC(hdc);
-			SelectObject(hmemdc, hBitmap);
-			BITMAP bm;
-			GetObject(hBitmap, sizeof(BITMAP), &bm);
-			BitBlt(hdc, rand() % (lpRect->right + 1 - 64), rand() % (lpRect->bottom + 1 - 64), 300, 300, hmemdc, 0, 0, SRCCOPY);
-			DeleteDC(hmemdc);
+            LPWSTR lpchText = (LPWSTR)L"尝试触发重绘事件，位图会重新改变位置。";
+            DrawText(hdc, (LPCWSTR)lpchText, -1, lpRect, DT_CENTER + DT_SINGLELINE + DT_VCENTER);
+            
+            //加载位图
+            HBITMAP hBitmap = LoadBitmap(hInst, MAKEINTRESOURCE(IDB_BITMAP1));
+            GetClientRect(hWnd, lpRect);
+            SetStretchBltMode(hdc, HALFTONE);
+            HDC hmemdc = CreateCompatibleDC(hdc);
+            SelectObject(hmemdc, hBitmap);
+            BITMAP bm;
+            GetObject(hBitmap, sizeof(BITMAP), &bm);
+            BitBlt(hdc, rand() % (lpRect->right + 1 - 64), rand() % (lpRect->bottom + 1 - 64), 300, 300, hmemdc, 0, 0, SRCCOPY);
+            DeleteDC(hmemdc);
 
             EndPaint(hWnd, &ps);
         }

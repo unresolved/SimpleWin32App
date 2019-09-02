@@ -22,7 +22,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance
     // TODO: 在此处放置代码。
     
     // Init CrashReport
-    RunCrashHandler();
+    // RunCrashHandler();
 
     // 初始化全局字符串
     LoadStringW(hInstance, IDS_APP_TITLE, szTitle, MAX_LOADSTRING);
@@ -175,7 +175,8 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
             SelectObject(hmemdc, hBitmap);
             BITMAP bm;
             GetObject(hBitmap, sizeof(BITMAP), &bm);
-            BitBlt(hdc, rand() % (lpRect->right + 1 - 64), rand() % (lpRect->bottom + 1 - 64), 300, 300, hmemdc, 0, 0, SRCCOPY);
+			BitBlt(hdc, rand() % (lpRect->right + 1 - 64), rand() % (lpRect->bottom + 1 - 64), 300, 300, hmemdc, 0, 0, SRCCOPY);
+			
             DeleteDC(hmemdc);
 
             EndPaint(hWnd, &ps);
